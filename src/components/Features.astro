@@ -1,0 +1,235 @@
+---
+// "Engineered strictly for power users" — horizontal scroll-snap slider
+// Native CSS scroll-snap + tiny vanilla JS for the prev/next arrows.
+
+const features = [
+  {
+    title: "Node-Based Automation",
+    description:
+      "Build powerful workflows by visually connecting triggers, filters, and actions — no code required.",
+    mock: "nodes",
+  },
+  {
+    title: "Local Folder Integration",
+    description:
+      "Connect to local folders and run custom scripts the moment a file changes on your machine.",
+    mock: "folder",
+  },
+  {
+    title: "Enhanced Observability",
+    description:
+      "Track every run in real-time. Configure alerts and watch your workflows execute step by step.",
+    mock: "chart",
+  },
+  {
+    title: "AI-Enhanced Suggestions",
+    description:
+      "Recommendations based on your behavior and workflow patterns — from a model that runs locally.",
+    mock: "ai",
+  },
+  {
+    title: "Detailed Execution Logs",
+    description:
+      "Every run is tracked, inspectable, and exportable. Know exactly what happened and when.",
+    mock: "logs",
+  },
+  {
+    title: "Cross-Platform Native",
+    description:
+      "Runs natively on macOS, Windows, and Linux. One binary, no Electron, no surprises.",
+    mock: "platform",
+  },
+];
+---
+
+<section class="relative py-section">
+  <div class="container-page flex flex-col gap-12">
+    <!-- Section header with arrow controls -->
+    <div class="flex flex-col gap-6">
+      <div class="flex max-w-3xl flex-col gap-3">
+        <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle">
+          /02 · Features
+        </span>
+        <h2
+          class="font-sans font-bold tracking-tight text-fg"
+          style="font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; letter-spacing: -0.03em;"
+        >
+          Engineered strictly<br />
+          for <span class="text-gradient">power users</span>
+        </h2>
+        <p class="max-w-xl text-base text-fg-muted">
+          Every run is tracked in detail — from inputs to outputs to runtime
+          errors. Perfect for debugging and transparency.
+        </p>
+      </div>
+
+      <!-- Arrow controls + scroll progress -->
+      <div class="flex items-center justify-between">
+        <span class="font-mono text-[11px] text-fg-subtle">
+          <span data-feature-index>01</span> / {String(features.length).padStart(2, "0")}
+        </span>
+        <div class="flex gap-2">
+          <button
+            type="button"
+            data-feature-prev
+            aria-label="Previous feature"
+            class="grid h-10 w-10 place-items-center rounded-pill border border-line-strong bg-bg-elevated text-fg-muted transition hover:border-violet/40 hover:text-fg disabled:opacity-30"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            data-feature-next
+            aria-label="Next feature"
+            class="grid h-10 w-10 place-items-center rounded-pill border border-line-strong bg-bg-elevated text-fg-muted transition hover:border-violet/40 hover:text-fg disabled:opacity-30"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider track -->
+    <div class="fade-edges -mx-gutter px-gutter">
+      <div
+        data-feature-track
+        class="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2"
+      >
+        {
+          features.map((feature) => (
+            <article class="workflow-node group relative flex w-[280px] shrink-0 snap-start flex-col gap-4 overflow-hidden rounded-card border border-line p-5 transition hover:border-violet/40 sm:w-[300px]">
+              {/* Hover glow */}
+              <div class="pointer-events-none absolute inset-0 -z-10 opacity-0 transition group-hover:opacity-100 [background:radial-gradient(ellipse_at_top,rgb(168_85_247/0.12),transparent_70%)]" />
+
+              {/* Visual mock per card */}
+              <div class="relative flex h-28 items-center justify-center overflow-hidden rounded-md border border-line bg-bg">
+                {feature.mock === "nodes" && (
+                  <svg viewBox="0 0 120 60" class="h-16 w-full">
+                    <defs>
+                      <linearGradient id="g-nodes" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#e879f9" />
+                        <stop offset="100%" stop-color="#a855f7" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 20 30 Q 40 30 40 15 T 60 15 Q 80 15 80 45 T 100 45" stroke="url(#g-nodes)" stroke-width="1" fill="none" />
+                    <rect x="10" y="22" width="20" height="16" rx="3" fill="#0c0c0e" stroke="#2a2a30" />
+                    <circle cx="20" cy="30" r="2" fill="#e879f9" />
+                    <rect x="50" y="7" width="20" height="16" rx="3" fill="#0c0c0e" stroke="#2a2a30" />
+                    <circle cx="60" cy="15" r="2" fill="#a855f7" />
+                    <rect x="90" y="37" width="20" height="16" rx="3" fill="#0c0c0e" stroke="#2a2a30" />
+                    <circle cx="100" cy="45" r="2" fill="#e879f9" />
+                  </svg>
+                )}
+                {feature.mock === "folder" && (
+                  <svg viewBox="0 0 120 60" class="h-14 w-full">
+                    <rect x="30" y="18" width="60" height="30" rx="3" fill="#0c0c0e" stroke="#2a2a30" />
+                    <path d="M 30 18 L 42 18 L 48 14 L 60 14 L 60 22 L 30 22 Z" fill="#a855f7" fill-opacity="0.3" stroke="#a855f7" stroke-opacity="0.5" />
+                    <line x1="36" y1="30" x2="84" y2="30" stroke="#2a2a30" />
+                    <line x1="36" y1="36" x2="72" y2="36" stroke="#2a2a30" />
+                    <circle cx="82" cy="48" r="4" fill="#e879f9" />
+                  </svg>
+                )}
+                {feature.mock === "chart" && (
+                  <svg viewBox="0 0 120 60" class="h-16 w-full">
+                    <defs>
+                      <linearGradient id="g-chart" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#e879f9" stop-opacity="0.5" />
+                        <stop offset="100%" stop-color="#e879f9" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 10 45 L 25 30 L 40 35 L 55 20 L 70 25 L 85 12 L 100 18 L 110 8 L 110 55 L 10 55 Z" fill="url(#g-chart)" />
+                    <path d="M 10 45 L 25 30 L 40 35 L 55 20 L 70 25 L 85 12 L 100 18 L 110 8" stroke="#e879f9" stroke-width="1.5" fill="none" />
+                  </svg>
+                )}
+                {feature.mock === "ai" && (
+                  <svg viewBox="0 0 120 60" class="h-16 w-full">
+                    <circle cx="60" cy="30" r="14" fill="#0c0c0e" stroke="#a855f7" stroke-opacity="0.6" />
+                    <circle cx="60" cy="30" r="8" fill="#a855f7" fill-opacity="0.2" />
+                    <circle cx="60" cy="30" r="3" fill="#e879f9" />
+                    <line x1="60" y1="10" x2="60" y2="16" stroke="#a855f7" stroke-opacity="0.5" />
+                    <line x1="60" y1="44" x2="60" y2="50" stroke="#a855f7" stroke-opacity="0.5" />
+                    <line x1="40" y1="30" x2="46" y2="30" stroke="#a855f7" stroke-opacity="0.5" />
+                    <line x1="74" y1="30" x2="80" y2="30" stroke="#a855f7" stroke-opacity="0.5" />
+                    <line x1="46" y1="16" x2="50" y2="20" stroke="#a855f7" stroke-opacity="0.3" />
+                    <line x1="70" y1="40" x2="74" y2="44" stroke="#a855f7" stroke-opacity="0.3" />
+                    <line x1="46" y1="44" x2="50" y2="40" stroke="#a855f7" stroke-opacity="0.3" />
+                    <line x1="70" y1="20" x2="74" y2="16" stroke="#a855f7" stroke-opacity="0.3" />
+                  </svg>
+                )}
+                {feature.mock === "logs" && (
+                  <div class="flex h-full w-full flex-col justify-center gap-1 px-5 font-mono text-[9px] text-fg-muted">
+                    <div><span class="text-fuchsia">→</span> 14:32:01 trigger.fire</div>
+                    <div><span class="text-fuchsia">→</span> 14:32:02 fetch.done</div>
+                    <div><span class="text-emerald-400">✓</span> 14:32:03 store.ok</div>
+                    <div class="text-fg-subtle">// 5.4s</div>
+                  </div>
+                )}
+                {feature.mock === "platform" && (
+                  <div class="flex items-center gap-3 font-mono text-[10px] text-fg-muted">
+                    <span class="grid h-10 w-10 place-items-center rounded-md border border-line-strong bg-bg-elevated">
+
+                    </span>
+                    <span class="grid h-10 w-10 place-items-center rounded-md border border-line-strong bg-bg-elevated">
+                      ⊞
+                    </span>
+                    <span class="grid h-10 w-10 place-items-center rounded-md border border-line-strong bg-bg-elevated">
+                      🐧
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <h3 class="text-sm font-semibold text-fg">{feature.title}</h3>
+                <p class="text-xs leading-relaxed text-fg-muted">{feature.description}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Vanilla JS scroll controls — scoped to this component, ~30 lines.
+  const track = document.querySelector<HTMLDivElement>("[data-feature-track]");
+  const prev = document.querySelector<HTMLButtonElement>("[data-feature-prev]");
+  const next = document.querySelector<HTMLButtonElement>("[data-feature-next]");
+  const indexEl = document.querySelector<HTMLSpanElement>("[data-feature-index]");
+
+  if (track && prev && next && indexEl) {
+    const cardWidth = () => {
+      const card = track.querySelector("article");
+      if (!card) return 300;
+      const styles = getComputedStyle(track);
+      const gap = parseFloat(styles.gap) || 16;
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    const updateState = () => {
+      const cw = cardWidth();
+      const current = Math.round(track.scrollLeft / cw) + 1;
+      indexEl.textContent = String(current).padStart(2, "0");
+      prev.toggleAttribute("disabled", track.scrollLeft <= 4);
+      next.toggleAttribute(
+        "disabled",
+        track.scrollLeft >= track.scrollWidth - track.clientWidth - 4,
+      );
+    };
+
+    prev.addEventListener("click", () => {
+      track.scrollBy({ left: -cardWidth(), behavior: "smooth" });
+    });
+    next.addEventListener("click", () => {
+      track.scrollBy({ left: cardWidth(), behavior: "smooth" });
+    });
+    track.addEventListener("scroll", updateState, { passive: true });
+    window.addEventListener("resize", updateState);
+    updateState();
+  }
+</script>

@@ -1,0 +1,124 @@
+---
+import Logo from "./Logo.astro";
+
+const links = [
+  { label: "Products", href: "#" },
+  { label: "Company", href: "#" },
+  { label: "Pricing", href: "#" },
+  { label: "Download", href: "#" },
+  { label: "Docs", href: "#" },
+  { label: "Changelog", href: "#" },
+];
+---
+
+<header
+  data-nav
+  class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+>
+  <div
+    data-nav-bar
+    class="container-page mt-3 flex h-14 items-center justify-between rounded-pill border border-transparent transition-all duration-300"
+  >
+    <a
+      href="/"
+      class="flex items-center px-2 text-fg transition hover:text-violet-bright"
+      aria-label="Miscreants home"
+    >
+      <Logo class="h-5 w-auto" />
+    </a>
+
+    <nav class="hidden items-center gap-7 text-sm text-fg-muted md:flex">
+      {
+        links.map((link) => (
+          <a href={link.href} class="transition hover:text-fg">
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2 pr-2">
+      <a
+        href="#"
+        class="hidden text-sm text-fg-muted transition hover:text-fg sm:inline"
+      >
+        Log in
+      </a>
+      <a href="#" class="btn-primary !px-4 !py-1.5 !text-xs">
+        Sign up
+      </a>
+
+      <!-- Mobile hamburger -->
+      <button
+        type="button"
+        data-nav-toggle
+        aria-label="Open menu"
+        class="ml-1 grid h-9 w-9 place-items-center rounded-md border border-line text-fg-muted transition hover:border-violet/40 hover:text-fg md:hidden"
+      >
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path data-nav-icon-open d="M3 6h18M3 12h18M3 18h18" />
+          <path data-nav-icon-close class="hidden" d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile slide-down panel -->
+  <div
+    data-nav-panel
+    class="container-page mt-2 hidden overflow-hidden md:hidden"
+  >
+    <div class="rounded-card border border-line-strong bg-bg-elevated/95 p-4 backdrop-blur-md">
+      <nav class="flex flex-col gap-1 text-sm">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class="rounded-md px-3 py-2 text-fg-muted transition hover:bg-white/5 hover:text-fg"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+        <hr class="my-2 border-line" />
+        <a
+          href="#"
+          class="rounded-md px-3 py-2 text-fg-muted transition hover:bg-white/5 hover:text-fg"
+        >
+          Log in
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Scroll-aware backdrop blur
+  const navBar = document.querySelector<HTMLElement>("[data-nav-bar]");
+  const update = () => {
+    if (!navBar) return;
+    const scrolled = window.scrollY > 12;
+    navBar.classList.toggle("border-line-strong", scrolled);
+    navBar.classList.toggle("bg-bg/70", scrolled);
+    navBar.classList.toggle("backdrop-blur-xl", scrolled);
+    navBar.classList.toggle(
+      "shadow-[0_8px_30px_-10px_rgba(0,0,0,0.6)]",
+      scrolled,
+    );
+  };
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+
+  // Mobile menu toggle
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const panel = document.querySelector<HTMLElement>("[data-nav-panel]");
+  const iconOpen = document.querySelector<SVGElement>("[data-nav-icon-open]");
+  const iconClose = document.querySelector<SVGElement>("[data-nav-icon-close]");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = panel?.classList.toggle("hidden") === false;
+    iconOpen?.classList.toggle("hidden", isOpen);
+    iconClose?.classList.toggle("hidden", !isOpen);
+    toggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+  });
+</script>

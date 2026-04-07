@@ -1,0 +1,166 @@
+---
+// "Privacy friendly, lightweight visualisation and control"
+// Two-card split: a line chart visualization + a stats card with metrics.
+---
+
+<section class="relative py-section">
+  <div class="container-page flex flex-col gap-12">
+    <!-- Centered header -->
+    <div class="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
+      <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle">
+        /03 · Observability
+      </span>
+      <h2
+        class="font-sans font-bold tracking-tight text-balance text-fg"
+        style="font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
+      >
+        Privacy friendly,<br />
+        lightweight <span class="text-gradient">visualisation</span><br />
+        and control
+      </h2>
+    </div>
+
+    <!-- 2-column split: chart card + stats card -->
+    <div class="grid gap-4 lg:grid-cols-2">
+      <!-- Chart card -->
+      <article class="app-window flex flex-col gap-5 overflow-hidden rounded-card p-6">
+        <div class="flex items-start justify-between">
+          <div class="flex flex-col gap-1">
+            <h3 class="text-base font-semibold text-fg">See Everything at a Glance</h3>
+            <p class="text-xs text-fg-muted">
+              Track your automation performance in real-time. No guesswork, just clarity.
+            </p>
+          </div>
+          <span class="rounded-pill border border-line bg-bg-elevated px-2 py-0.5 font-mono text-[10px] text-fg-subtle">
+            7d
+          </span>
+        </div>
+
+        <!-- SVG line chart -->
+        <div class="relative h-[220px] w-full rounded-md border border-line bg-bg p-3">
+          <svg viewBox="0 0 400 180" class="h-full w-full" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e879f9" stop-opacity="0.4" />
+                <stop offset="100%" stop-color="#e879f9" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="chart-stroke" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#ec4899" />
+                <stop offset="50%" stop-color="#e879f9" />
+                <stop offset="100%" stop-color="#a855f7" />
+              </linearGradient>
+            </defs>
+
+            <!-- Grid lines -->
+            <line x1="0" y1="45" x2="400" y2="45" stroke="#1f1f23" stroke-width="0.5" />
+            <line x1="0" y1="90" x2="400" y2="90" stroke="#1f1f23" stroke-width="0.5" />
+            <line x1="0" y1="135" x2="400" y2="135" stroke="#1f1f23" stroke-width="0.5" />
+
+            <!-- Area fill -->
+            <path
+              d="M 10 130 L 50 110 L 90 120 L 130 80 L 170 95 L 210 60 L 250 70 L 290 40 L 330 55 L 370 25 L 390 35 L 390 175 L 10 175 Z"
+              fill="url(#chart-fill)"
+            />
+            <!-- Line stroke -->
+            <path
+              d="M 10 130 L 50 110 L 90 120 L 130 80 L 170 95 L 210 60 L 250 70 L 290 40 L 330 55 L 370 25 L 390 35"
+              stroke="url(#chart-stroke)"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+
+            <!-- Data point dots -->
+            <circle cx="290" cy="40" r="3" fill="#e879f9" />
+            <circle cx="290" cy="40" r="6" fill="#e879f9" fill-opacity="0.3" />
+          </svg>
+
+          <!-- Floating tooltip -->
+          <div class="absolute left-[68%] top-[15%] rounded-md border border-violet/40 bg-bg-elevated px-2 py-1 font-mono text-[9px] text-fg shadow-[0_0_20px_-5px_rgb(168_85_247/0.5)]">
+            <div class="text-fg-subtle">Tue, Apr 4</div>
+            <div>Runs: <span class="text-fuchsia">412</span></div>
+          </div>
+        </div>
+
+        <!-- Mini legend -->
+        <div class="flex items-center gap-4 font-mono text-[10px] text-fg-subtle">
+          <span class="flex items-center gap-1.5">
+            <span class="h-1.5 w-1.5 rounded-pill bg-fuchsia"></span>
+            Successful Runs
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="h-1.5 w-1.5 rounded-pill bg-violet"></span>
+            Avg Duration
+          </span>
+        </div>
+      </article>
+
+      <!-- Stats card -->
+      <article class="app-window flex flex-col gap-6 overflow-hidden rounded-card p-6">
+        <div class="flex flex-col gap-1">
+          <h3 class="text-base font-semibold text-fg">Build Flows Like You Think</h3>
+          <p class="text-xs text-fg-muted">
+            Drag and connect nodes to build logic that mirrors how your brain works.
+          </p>
+        </div>
+
+        <!-- Big stat -->
+        <div class="flex items-end gap-3">
+          <span
+            class="font-sans font-extrabold tracking-tight text-fg"
+            style="font-size: 4rem; line-height: 1; letter-spacing: -0.04em;"
+          >
+            3,812
+          </span>
+          <span class="mb-2 inline-flex items-center gap-1 rounded-pill bg-emerald-400/10 px-2 py-0.5 font-mono text-[10px] text-emerald-400">
+            <span>↑</span> +6%
+          </span>
+        </div>
+        <span class="font-mono text-[10px] text-fg-subtle">
+          successful runs · last 7 days
+        </span>
+
+        <!-- 3-column mini stats with prominent trend chips -->
+        <div class="mt-2 grid grid-cols-3 gap-3 border-t border-line pt-5">
+          {
+            [
+              { label: "Failed runs", value: "249", trend: "+23%", arrow: "↑", color: "fuchsia" },
+              { label: "Successful", value: "3,812", trend: "+6%", arrow: "↑", color: "emerald" },
+              { label: "Avg run time", value: "5.4s", trend: "−51%", arrow: "↓", color: "emerald" },
+            ].map((stat) => (
+              <div class="flex flex-col gap-1.5">
+                <span class="font-mono text-[10px] uppercase tracking-wider text-fg-subtle">
+                  {stat.label}
+                </span>
+                <span class="text-2xl font-bold text-fg">{stat.value}</span>
+                <span
+                  class:list={[
+                    "inline-flex w-fit items-center gap-1 rounded-pill border px-2 py-0.5 font-mono text-[10px] font-semibold",
+                    stat.color === "fuchsia"
+                      ? "border-fuchsia/30 bg-fuchsia/10 text-fuchsia shadow-[0_0_15px_-5px_rgb(232_121_249/0.6)]"
+                      : "border-emerald-400/30 bg-emerald-400/10 text-emerald-400 shadow-[0_0_15px_-5px_rgb(52_211_153/0.5)]",
+                  ]}
+                >
+                  <span>{stat.arrow}</span>
+                  {stat.trend}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+    </div>
+
+    <!-- "Join Plasma" pill below the cards -->
+    <div class="flex justify-center">
+      <a
+        href="#"
+        class="inline-flex items-center gap-2 rounded-pill border border-line-strong bg-bg-elevated px-5 py-2 text-sm text-fg-muted transition hover:border-violet/40 hover:text-fg"
+      >
+        Join Plasma
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,89 @@
+---
+// "Even more control with AI auto build and trigger"
+// Prompt → action example with step list.
+
+const steps = [
+  { label: "Add new profile to leads", icon: "plus" },
+  { label: "Verify subscription tier", icon: "check" },
+  { label: "Company information", icon: "info" },
+];
+---
+
+<section class="relative py-section">
+  <div class="container-page flex flex-col gap-12">
+    <!-- Header -->
+    <div class="flex max-w-3xl flex-col gap-3">
+      <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle">
+        /04 · AI auto-build
+      </span>
+      <h2
+        class="font-sans font-bold tracking-tight text-balance text-fg"
+        style="font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
+      >
+        Even more control<br />
+        with <span class="text-gradient">AI auto-build</span><br />
+        and trigger
+      </h2>
+      <p class="max-w-xl text-base text-fg-muted">
+        From prompt to production in seconds. Just say what you want to automate
+        and Plasma builds the workflow for you.
+      </p>
+    </div>
+
+    <!-- Prompt card -->
+    <div class="app-window relative overflow-hidden rounded-card p-1">
+      <!-- Top prompt bar -->
+      <div class="flex items-center gap-3 border-b border-line/60 bg-gradient-to-r from-violet/5 via-transparent to-fuchsia/5 px-5 py-4">
+        <span class="grid h-8 w-8 place-items-center rounded-md bg-gradient-to-br from-pink to-violet text-sm font-bold text-fg shadow-[0_0_20px_-5px_rgb(168_85_247/0.6)]">
+          ✦
+        </span>
+        <div class="flex-1 font-mono text-sm text-fg">
+          Enrich contact details every time with new profile data
+          <span class="ml-1 inline-block h-4 w-[1px] animate-pulse bg-fuchsia align-middle"></span>
+        </div>
+        <span class="inline-flex items-center gap-1.5 rounded-pill border border-violet/30 bg-violet/10 px-2.5 py-1 font-mono text-[10px] text-violet-bright">
+          <span class="h-1.5 w-1.5 animate-pulse rounded-pill bg-violet-bright shadow-[0_0_8px_rgb(192_132_252)]"></span>
+          Generating flow
+        </span>
+      </div>
+
+      <!-- Generated steps -->
+      <div class="flex flex-col gap-2 p-5">
+        {
+          steps.map((step, i) => (
+            <div class="group flex items-center gap-4 rounded-md border border-line bg-bg p-4 transition hover:border-violet/30">
+              <span class="grid h-8 w-8 place-items-center rounded-md border border-line-strong bg-bg-elevated font-mono text-xs text-fg-subtle">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div class="flex flex-1 flex-col gap-0.5">
+                <span class="text-sm font-medium text-fg">{step.label}</span>
+                <span class="font-mono text-[10px] text-fg-subtle">
+                  auto-generated from prompt
+                </span>
+              </div>
+              <span class="text-emerald-400">✓</span>
+            </div>
+          ))
+        }
+
+        <!-- Generating next step placeholder -->
+        <div class="flex items-center gap-4 rounded-md border border-dashed border-violet/30 bg-violet/[0.03] p-4">
+          <span class="grid h-8 w-8 place-items-center rounded-md border border-violet/30 bg-violet/10 font-mono text-xs text-violet-bright">
+            04
+          </span>
+          <div class="flex flex-1 flex-col gap-0.5">
+            <span class="flex items-center gap-2 text-sm font-medium text-fg-muted">
+              Sync to CRM
+              <span class="inline-flex gap-0.5">
+                <span class="h-1 w-1 animate-pulse rounded-pill bg-fuchsia [animation-delay:0ms]"></span>
+                <span class="h-1 w-1 animate-pulse rounded-pill bg-fuchsia [animation-delay:150ms]"></span>
+                <span class="h-1 w-1 animate-pulse rounded-pill bg-fuchsia [animation-delay:300ms]"></span>
+              </span>
+            </span>
+            <span class="font-mono text-[10px] text-fg-subtle">thinking...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

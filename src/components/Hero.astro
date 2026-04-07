@@ -1,0 +1,217 @@
+---
+// Plasma-style hero (refined)
+// Aurora glow + grid pattern + heavy display type + mock app window with
+// gradient borders and connecting workflow lines.
+---
+
+<section class="relative overflow-hidden pt-32 pb-24">
+  <!-- Layered background: aurora glow + subtle grid + floating code dust -->
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div class="aurora-bg absolute inset-x-0 top-0 h-[700px]"></div>
+    <div class="grid-bg absolute inset-x-0 top-0 h-[900px]"></div>
+
+    <!-- Floating "code dust" — decorative snippets behind the hero -->
+    <span class="absolute left-[3%] top-[20%] font-mono text-[11px] text-violet/40 select-none">
+      trigger.on("schedule")
+    </span>
+    <span class="absolute right-[5%] top-[16%] font-mono text-[11px] text-fuchsia/40 select-none">
+      await plasma.run()
+    </span>
+    <span class="absolute left-[6%] top-[44%] font-mono text-[11px] text-violet-bright/35 select-none">
+      // local-first · zero-cloud
+    </span>
+    <span class="absolute right-[8%] top-[50%] font-mono text-[11px] text-fuchsia/35 select-none">
+      {`{ status: "ok", time: 5.4 }`}
+    </span>
+    <span class="absolute left-[2%] top-[66%] font-mono text-[11px] text-violet/30 select-none">
+      workflow.emit("done")
+    </span>
+    <span class="absolute right-[3%] top-[70%] font-mono text-[11px] text-fuchsia/30 select-none">
+      node.connect(next).run()
+    </span>
+
+    <!-- Bottom fade to pure bg -->
+    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg"></div>
+  </div>
+
+  <div class="container-page relative">
+    <!-- Split: copy left, CTAs right -->
+    <div class="grid items-end gap-10 lg:grid-cols-[1.6fr_auto]">
+      <div class="flex flex-col gap-7">
+        <!-- "What's New" pill with gradient border + shimmer sweep -->
+        <a
+          href="#"
+          class="gradient-border shimmer inline-flex w-fit items-center gap-2 rounded-pill px-3 py-1.5 text-xs text-fg-muted backdrop-blur transition hover:text-fg"
+        >
+          <span class="rounded-pill bg-gradient-to-r from-pink to-violet px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-fg">
+            What's New
+          </span>
+          Introducing Plasma 2.0
+          <span class="text-fg-subtle transition group-hover:translate-x-0.5">→</span>
+        </a>
+
+        <!-- Headline -->
+        <h1
+          class="font-sans font-extrabold tracking-tight text-fg"
+          style="font-size: clamp(2.75rem, 6vw, 5.25rem); line-height: 0.95; letter-spacing: -0.045em;"
+        >
+          Local-first automation<br />
+          for <span class="text-gradient">power users</span>
+        </h1>
+
+        <!-- Subheading -->
+        <p class="max-w-xl text-base text-fg-muted sm:text-lg">
+          Plasma is an open-source desktop app that lets you build and run
+          automations directly on your machine. No fluff — just fast, visual
+          workflows powered by you.
+        </p>
+      </div>
+
+      <!-- CTA cluster -->
+      <div class="flex flex-col items-start gap-4 lg:items-end">
+        <div class="flex flex-wrap gap-3">
+          <a href="#" class="btn-primary">
+            Try it locally
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="#" class="btn-secondary">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor">
+              <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.16c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>
+            </svg>
+            View on GitHub
+          </a>
+        </div>
+        <p class="font-mono text-xs text-fg-subtle">
+          <span class="text-fg-muted">2.4k</span> stars ·
+          <span class="text-fg-muted">500+</span> active installs
+        </p>
+      </div>
+    </div>
+
+    <!-- Mock app window -->
+    <div class="relative mt-20">
+      <!-- Outer glow halo -->
+      <div class="absolute -inset-x-32 -inset-y-16 -z-10 [background:radial-gradient(ellipse_at_center,rgb(168_85_247/0.25),transparent_65%)]"></div>
+
+      <div class="app-window overflow-hidden rounded-card">
+        <!-- Window chrome -->
+        <div class="flex items-center gap-2 border-b border-line/80 bg-gradient-to-b from-white/[0.03] to-transparent px-4 py-3">
+          <span class="h-3 w-3 rounded-pill bg-pink/70 shadow-[0_0_8px_-1px_rgb(236_72_153/0.6)]"></span>
+          <span class="h-3 w-3 rounded-pill bg-violet/70 shadow-[0_0_8px_-1px_rgb(168_85_247/0.6)]"></span>
+          <span class="h-3 w-3 rounded-pill bg-fuchsia/70 shadow-[0_0_8px_-1px_rgb(232_121_249/0.6)]"></span>
+          <div class="ml-3 flex items-center gap-2 font-mono text-[11px] text-fg-subtle">
+            <span class="grid h-4 w-4 place-items-center rounded-sm bg-gradient-to-br from-pink to-violet text-[9px] font-bold text-fg">P</span>
+            plasma · sales-team / new-search-automation.flow
+          </div>
+          <div class="ml-auto flex items-center gap-3 font-mono text-[10px] text-fg-subtle">
+            <span class="flex items-center gap-1">
+              <span class="h-1.5 w-1.5 animate-pulse rounded-pill bg-emerald-400 shadow-[0_0_6px_rgb(52_211_153/0.8)]"></span>
+              Live
+            </span>
+            <span>v2.0.4</span>
+          </div>
+        </div>
+
+        <!-- Window body -->
+        <div class="grid grid-cols-12 gap-3 p-4">
+          <!-- Sidebar -->
+          <aside class="col-span-2 flex flex-col gap-1">
+            {
+              [
+                { label: "Workflows", active: true },
+                { label: "Triggers" },
+                { label: "Actions" },
+                { label: "Library" },
+                { label: "Logs" },
+                { label: "Settings" },
+              ].map((item) => (
+                <div
+                  class:list={[
+                    "rounded-md px-2.5 py-1.5 text-[11px] transition",
+                    item.active
+                      ? "bg-gradient-to-r from-violet/20 to-transparent text-fg shadow-[inset_0_0_0_1px_rgb(168_85_247/0.3)]"
+                      : "text-fg-subtle hover:bg-white/5 hover:text-fg-muted",
+                  ]}
+                >
+                  {item.label}
+                </div>
+              ))
+            }
+          </aside>
+
+          <!-- Workflow canvas -->
+          <div class="relative col-span-6 h-[300px] rounded-md border border-line bg-gradient-to-br from-bg via-bg to-violet/5 p-5">
+            <!-- SVG connecting lines between nodes -->
+            <svg
+              class="pointer-events-none absolute inset-0 h-full w-full"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#e879f9" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#a855f7" stop-opacity="0.4" />
+                </linearGradient>
+              </defs>
+              <path d="M 20 20 Q 33 20 33 50 T 50 50" stroke="url(#line-grad)" stroke-width="0.4" fill="none" />
+              <path d="M 50 20 Q 50 50 80 50" stroke="url(#line-grad)" stroke-width="0.4" fill="none" />
+              <path d="M 20 80 Q 50 80 50 50" stroke="url(#line-grad)" stroke-width="0.4" fill="none" />
+              <path d="M 50 50 L 80 80" stroke="url(#line-grad)" stroke-width="0.4" fill="none" />
+            </svg>
+
+            <div class="relative grid h-full grid-cols-3 gap-4">
+              {
+                [
+                  { title: "Trigger", sub: "On schedule", color: "fuchsia" },
+                  { title: "Fetch API", sub: "GET /leads", color: "violet" },
+                  { title: "Filter", sub: "Match query", color: "fuchsia" },
+                  { title: "Transform", sub: "Map fields", color: "violet" },
+                  { title: "Notify", sub: "Slack alert", color: "fuchsia" },
+                  { title: "Store", sub: "leads_db", color: "violet" },
+                ].map((node) => (
+                  <div class="workflow-node group flex flex-col gap-1 rounded-md p-2.5 transition hover:scale-[1.02]">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-1.5">
+                        <span
+                          class:list={[
+                            "h-1.5 w-1.5 rounded-pill",
+                            node.color === "fuchsia"
+                              ? "bg-fuchsia shadow-[0_0_8px_rgb(232_121_249/0.8)]"
+                              : "bg-violet shadow-[0_0_8px_rgb(168_85_247/0.8)]",
+                          ]}
+                        />
+                        <span class="text-[10px] font-semibold text-fg">{node.title}</span>
+                      </div>
+                      <span class="text-[8px] text-fg-subtle">▾</span>
+                    </div>
+                    <span class="font-mono text-[9px] text-fg-subtle">{node.sub}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Right pane: log output -->
+          <div class="col-span-4 rounded-md border border-line bg-bg p-3 font-mono text-[10px] leading-relaxed text-fg-muted">
+            <div class="mb-2 flex items-center justify-between border-b border-line/60 pb-2 text-fg-subtle">
+              <span>// Run output</span>
+              <span class="text-emerald-400">● running</span>
+            </div>
+            <div><span class="text-fuchsia">→</span> <span class="text-fg-subtle">14:32:01</span> Trigger fired</div>
+            <div><span class="text-fuchsia">→</span> <span class="text-fg-subtle">14:32:01</span> GET /api/leads</div>
+            <div><span class="text-fuchsia">→</span> <span class="text-fg-subtle">14:32:02</span> 142 records returned</div>
+            <div><span class="text-violet-bright">⚡</span> <span class="text-fg-subtle">14:32:02</span> Filtering...</div>
+            <div><span class="text-fuchsia">→</span> <span class="text-fg-subtle">14:32:03</span> 38 matches</div>
+            <div><span class="text-violet-bright">⚡</span> <span class="text-fg-subtle">14:32:03</span> Mapping fields</div>
+            <div><span class="text-emerald-400">✓</span> <span class="text-fg-subtle">14:32:05</span> Slack sent</div>
+            <div><span class="text-emerald-400">✓</span> <span class="text-fg-subtle">14:32:06</span> 38 rows → leads_db</div>
+            <div class="mt-2 border-t border-line/60 pt-2 text-fg-subtle">
+              Run completed in <span class="text-fuchsia">5.4s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
