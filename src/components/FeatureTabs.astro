@@ -1,0 +1,216 @@
+---
+// ============================================================================
+// FEATURE TABS — vertical tabs on the left, swapping image on the right
+// ============================================================================
+//
+// Each tab pairs a label, a description, and an image. The image renders on
+// the right (desktop) or inline below the active tab (mobile).
+//
+// TO ADD A NEW TAB:
+//   1. Drop a screenshot into `src/assets/feature-tabs/<slug>.png` (or .webp).
+//   2. Import it at the top of this frontmatter.
+//   3. Add an entry to the `tabs` array below.
+// ============================================================================
+
+import { Image } from "astro:assets";
+import reportingImg from "../assets/feature-tabs/reporting.png";
+import stackImg from "../assets/feature-tabs/stack.png";
+import automationsImg from "../assets/feature-tabs/automations.png";
+
+const tabs = [
+  {
+    id: "reporting",
+    label: "Explore reporting tools",
+    description:
+      "Every run is tracked in detail — from inputs to outputs to runtime errors. Perfect for debugging and transparency.",
+    image: reportingImg,
+  },
+  {
+    id: "stack",
+    label: "Built to work with your stack",
+    description:
+      "Native integrations with the tools you already use. Connect APIs, databases, and local scripts in seconds.",
+    image: stackImg,
+  },
+  {
+    id: "automations",
+    label: "Custom automations",
+    description:
+      "Build branching logic, schedules, and triggers without writing glue code. Your workflow, your rules.",
+    image: automationsImg,
+  },
+];
+---
+
+<section class="relative py-section">
+  <div
+    class="container-page grid gap-12 lg:grid-cols-2 lg:gap-18"
+    data-feature-tabs
+  >
+    <!-- LEFT COLUMN: heading + tabs -->
+    <div class="flex flex-col justify-between gap-10">
+      <div class="flex flex-col gap-4 lg:max-w-lg">
+        <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle">
+          /03 · Power tools
+        </span>
+        <h2 class="h2 text-fg">
+          Engineered<br class="hidden lg:block" />
+          strictly<br class="hidden lg:block" />
+          for <span class="text-gradient">power users</span>
+        </h2>
+      </div>
+
+      <!-- Vertical tabs -->
+      <div class="flex flex-col" role="tablist" aria-orientation="vertical">
+        {
+          tabs.map((tab, i) => (
+            <div class="flex flex-col">
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${tab.id}`}
+                aria-controls={`panel-${tab.id}`}
+                aria-selected={i === 0 ? "true" : "false"}
+                data-feature-tab={tab.id}
+                class="feature-tab group relative flex w-full cursor-pointer flex-col items-start gap-3 border-b border-line px-0 py-6 text-left transition hover:opacity-90"
+              >
+                <div class="flex w-full items-center justify-between gap-3">
+                  <span class="feature-tab-label text-body-lg font-medium text-fg-muted transition-colors">
+                    {tab.label}
+                  </span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feature-tab-arrow h-5 w-5 text-fg opacity-0 transition"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </div>
+
+                {/* Active description — grid-rows trick for smooth height anim */}
+                <div class="feature-tab-desc grid w-full">
+                  <div class="overflow-hidden">
+                    <p class="pt-2 text-body-md text-fg-muted">
+                      {tab.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Active gradient underline */}
+                <div class="feature-tab-underline absolute bottom-0 left-0 h-[2px] w-1/2 origin-left scale-x-0 rounded-full bg-gradient-to-r from-fuchsia via-violet to-violet-deep transition-transform duration-500" />
+              </button>
+
+              {/* MOBILE: image card inline under the active tab */}
+              <div
+                role="tabpanel"
+                id={`panel-mobile-${tab.id}`}
+                aria-labelledby={`tab-${tab.id}`}
+                data-feature-panel-mobile={tab.id}
+                hidden={i !== 0}
+                class="mt-4 lg:hidden"
+              >
+                <div class="workflow-node relative aspect-[11/8] w-full overflow-hidden rounded-card border border-line">
+                  <div class="absolute inset-0 bg-gradient-to-t from-bg-elevated/40 via-bg-elevated/10 to-transparent" />
+                  <Image
+                    src={tab.image}
+                    alt={tab.label}
+                    class="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: large image card (desktop only) -->
+    <div class="hidden aspect-[11/8] w-full overflow-hidden rounded-card border border-line lg:block">
+      <div class="workflow-node relative h-full w-full overflow-hidden">
+        <div class="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-bg-elevated/40 via-bg-elevated/10 to-transparent" />
+        {
+          tabs.map((tab, i) => (
+            <div
+              role="tabpanel"
+              id={`panel-${tab.id}`}
+              aria-labelledby={`tab-${tab.id}`}
+              data-feature-panel={tab.id}
+              hidden={i !== 0}
+              class="absolute inset-0"
+            >
+              <Image
+                src={tab.image}
+                alt={tab.label}
+                class="h-full w-full object-cover"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Active-tab styling driven by aria-selected, since Tailwind 4 doesn't ship
+     an aria-selected variant out of the box. */
+  .feature-tab[aria-selected="true"] .feature-tab-label {
+    color: var(--color-fg);
+  }
+  .feature-tab[aria-selected="true"] .feature-tab-arrow {
+    opacity: 1;
+  }
+  .feature-tab[aria-selected="true"] .feature-tab-underline {
+    transform: scaleX(1);
+  }
+  /* Accordion: animate height via grid-template-rows 0fr → 1fr.
+     The inner wrapper needs overflow:hidden so the content is clipped
+     while the row size is interpolating. */
+  .feature-tab-desc {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 500ms var(--ease-default),
+      opacity 350ms var(--ease-default);
+  }
+  .feature-tab[aria-selected="true"] .feature-tab-desc {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Vanilla tab controller — desktop + mobile panels stay in sync.
+  const root = document.querySelector<HTMLDivElement>("[data-feature-tabs]");
+  if (root) {
+    const tabs = root.querySelectorAll<HTMLButtonElement>("[data-feature-tab]");
+    const panels = root.querySelectorAll<HTMLDivElement>(
+      "[data-feature-panel], [data-feature-panel-mobile]",
+    );
+
+    const activate = (id: string) => {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.featureTab === id;
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      panels.forEach((panel) => {
+        const matches =
+          panel.dataset.featurePanel === id ||
+          panel.dataset.featurePanelMobile === id;
+        panel.toggleAttribute("hidden", !matches);
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const id = tab.dataset.featureTab;
+        if (id) activate(id);
+      });
+    });
+  }
+</script>

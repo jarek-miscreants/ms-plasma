@@ -1,81 +1,115 @@
 ---
 // ============================================================================
-// LOGO STRIP — source-agnostic "Trusted by" component
+// LOGO STRIP
 // ============================================================================
 //
-// Renders the array from src/data/logos.ts. Each entry has a `kind` field
-// that determines how it's rendered:
+// Drop client logo files into `src/assets/logos/` and they're available here.
 //
-//   "iconify"  → <Icon> component from astro-icon (Iconify brand collection)
-//   "svg"      → <Image> component from astro:assets (vector file in src/)
-//   "image"    → <Image> component from astro:assets (raster file in src/)
-//   "inline"   → raw <svg> with set:html (placeholder / one-off)
+//   • SVGs   → rendered inline as <svg> (inherit currentColor, stylable)
+//   • PNG/JPG/WebP → rendered via <Image> (optimized, hashed)
 //
-// Adding a new logo = adding one entry to logos.ts. The component never
-// needs to change as long as the source is one of these four kinds.
+// Filename (without extension) is used as alt text. Use `-` or `_` for spaces:
+// `acme-corp.svg` → "acme corp".
+//
+// CONTROLLING WHICH LOGOS APPEAR + IN WHAT ORDER
+// ----------------------------------------------------------------------------
+// By default, all logos in the folder render alphabetically. To pick a subset
+// or set an explicit order, pass the `order` prop with filename stems (no
+// extension) in the order you want them displayed:
+//
+//   <LogoStrip order={["acme", "globex", "initech"]} />
+//
+// Any name in `order` that doesn't match a file is silently skipped.
+// Without the prop, every logo in the folder is shown alphabetically.
 // ============================================================================
 
-import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
-import { logos } from "../data/logos";
+import type { ImageMetadata, SvgComponent } from "astro/types";
+
+interface Props {
+  order?: string[];
+  heading?: string;
+}
+
+const { order, heading = "Loved by developers at fast-moving teams" } =
+  Astro.props;
+
+const svgModules = import.meta.glob<{ default: SvgComponent }>(
+  "../assets/logos/*.svg",
+  { eager: true },
+);
+
+const rasterModules = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/logos/*.{png,jpg,jpeg,webp}",
+  { eager: true },
+);
+
+const stemFromPath = (path: string) =>
+  path.split("/").pop()!.replace(/\.[^.]+$/, "");
+
+const prettify = (stem: string) => stem.replace(/[-_]/g, " ");
+
+type LogoEntry =
+  | { kind: "svg"; stem: string; name: string; Component: SvgComponent }
+  | { kind: "raster"; stem: string; name: string; src: ImageMetadata };
+
+// Build a lookup of every available logo, keyed by filename stem.
+const allLogos = new Map<string, LogoEntry>();
+
+for (const [path, mod] of Object.entries(svgModules)) {
+  const stem = stemFromPath(path);
+  allLogos.set(stem, {
+    kind: "svg",
+    stem,
+    name: prettify(stem),
+    Component: mod.default,
+  });
+}
+
+for (const [path, mod] of Object.entries(rasterModules)) {
+  const stem = stemFromPath(path);
+  allLogos.set(stem, {
+    kind: "raster",
+    stem,
+    name: prettify(stem),
+    src: mod.default,
+  });
+}
+
+// If `order` is provided, use it (skipping unknown names).
+// Otherwise show every logo, alphabetically.
+const logos: LogoEntry[] = order
+  ? order
+      .map((stem) => allLogos.get(stem))
+      .filter((entry): entry is LogoEntry => entry !== undefined)
+  : Array.from(allLogos.values()).sort((a, b) =>
+      a.stem.localeCompare(b.stem),
+    );
 ---
 
 <section class="border-y border-line/60 bg-bg/60 py-12">
   <div class="container-page">
     <p class="mb-8 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-fg-subtle">
-      Loved by developers at fast-moving teams
+      {heading}
     </p>
 
-    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-fg-subtle">
       {
-        logos.map((logo) => {
-          // Wrap in <a> if there's a url, otherwise <div>.
-          // Same inner content either way.
-          const Tag = logo.url ? "a" : "div";
-          const linkProps = logo.url
-            ? { href: logo.url, target: "_blank", rel: "noopener noreferrer" }
-            : {};
-
-          return (
-            <Tag
-              {...linkProps}
-              class="flex items-center gap-2 text-fg-subtle transition "
-            >
-              {/* Branch once per source kind. TypeScript narrows correctly inside each. */}
-              {logo.kind === "iconify" && (
-                <Icon name={logo.slug} class="h-5 w-5" />
-              )}
-
-              {logo.kind === "svg" && (
-                <Image
-                  src={logo.src}
-                  alt={logo.name}
-                  class="h-5 w-auto object-contain"
-                />
-              )}
-
-              {logo.kind === "image" && (
-                <Image
-                  src={logo.src}
-                  alt={logo.name}
-                  class="h-5 w-auto object-contain"
-                />
-              )}
-
-              {logo.kind === "inline" && (
-                <svg
-                  viewBox="0 0 24 24"
-                  class="h-5 w-5"
-                  set:html={logo.svg}
-                />
-              )}
-
-              <span class="font-sans text-base font-semibold tracking-tight">
-                {logo.name}
-              </span>
-            </Tag>
-          );
-        })
+        logos.map((logo) =>
+          logo.kind === "svg" ? (
+            <logo.Component
+              role="img"
+              aria-label={logo.name}
+              class="h-8 w-auto"
+            />
+          ) : (
+            <Image
+              src={logo.src}
+              alt={logo.name}
+              class="h-8 w-auto object-contain"
+            />
+          ),
+        )
       }
     </div>
   </div>

@@ -96,7 +96,7 @@
   /* ----- H1: 2.75rem → 5.25rem (44 → 84px) ----- */
   .h1 {
     font-family: var(--font-sans);
-    font-weight: 800;
+    font-weight: 400;
     line-height: 0.95;
     letter-spacing: -0.045em;
     font-size: clamp(
@@ -110,7 +110,7 @@
   /* ----- H2: 2rem → 3.5rem (32 → 56px) ----- */
   .h2 {
     font-family: var(--font-sans);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.03em;
     font-size: clamp(
@@ -124,7 +124,7 @@
   /* ----- H3: 1.5rem → 2rem (24 → 32px) ----- */
   .h3 {
     font-family: var(--font-sans);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.02em;
     font-size: clamp(
@@ -138,7 +138,7 @@
   /* ----- Big-stat number: 2.5rem → 4rem (40 → 64px) ----- */
   .text-stat {
     font-family: var(--font-sans);
-    font-weight: 800;
+    font-weight: 4 00;
     line-height: 1;
     letter-spacing: -0.04em;
     font-size: clamp(
