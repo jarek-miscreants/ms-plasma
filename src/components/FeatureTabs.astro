@@ -12,11 +12,10 @@
 //   3. Add an entry to the `tabs` array below.
 // ============================================================================
 
-// NOTE: using plain <img> with the imported asset's `.src` URL instead of
-// astro:assets <Image>. Vite still bundles and hashes the files, but we skip
-// Astro's image-service pipeline — which 404s on Cloudflare without an
-// IMAGES binding (paid Cloudflare Images add-on). Drop in <Image> later if
-// you wire that up.
+// astro:assets <Image> runs the file through sharp at build time (configured
+// in astro.config.mjs) and emits an optimized, hashed static asset under
+// /_astro/. No runtime image service, no Cloudflare Images binding needed.
+import { Image } from "astro:assets";
 import reportingImg from "../assets/feature-tabs/reporting.png";
 import stackImg from "../assets/feature-tabs/stack.png";
 import automationsImg from "../assets/feature-tabs/automations.png";
@@ -120,13 +119,10 @@ const tabs = [
               >
                 <div class="workflow-node relative aspect-[11/8] w-full overflow-hidden rounded-card border border-line">
                   <div class="absolute inset-0 bg-gradient-to-t from-bg-elevated/40 via-bg-elevated/10 to-transparent" />
-                  <img
-                    src={tab.image.src}
-                    width={tab.image.width}
-                    height={tab.image.height}
+                  <Image
+                    src={tab.image}
                     alt={tab.label}
                     loading="lazy"
-                    decoding="async"
                     class="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
@@ -151,13 +147,10 @@ const tabs = [
               hidden={i !== 0}
               class="absolute inset-0"
             >
-              <img
-                src={tab.image.src}
-                width={tab.image.width}
-                height={tab.image.height}
+              <Image
+                src={tab.image}
                 alt={tab.label}
                 loading="lazy"
-                decoding="async"
                 class="h-full w-full object-cover"
               />
             </div>

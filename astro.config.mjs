@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, passthroughImageService } from "astro/config";
+import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -11,13 +11,11 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  // Skip image optimization in the Workers runtime — the Cloudflare adapter
-  // would otherwise enable the Cloudflare Images service, which requires the
-  // `IMAGES` binding (paid add-on). Passthrough serves source files as-is;
-  // they're still bundled and hashed by Vite, just not transcoded.
-  image: {
-    service: passthroughImageService(),
-  },
-
-  adapter: cloudflare(),
+  // `imageService: "compile"` tells the Cloudflare adapter to run sharp at
+  // BUILD time for any prerendered routes (static pages bake optimized,
+  // hashed assets straight into /_astro/) and falls back to passthrough for
+  // SSR routes. No Cloudflare Images binding needed, no runtime cost.
+  adapter: cloudflare({
+    imageService: "compile",
+  }),
 });
