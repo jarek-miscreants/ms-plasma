@@ -11,27 +11,9 @@
     <div class="grid-bg absolute inset-x-0 top-0 h-[900px]"></div>
 
     <!-- Floating "code dust" — decorative snippets behind the hero -->
-    <span class="absolute left-[3%] top-[20%] font-mono text-[11px] text-violet/40 select-none">
-      trigger.on("schedule")
-    </span>
-    <span class="absolute right-[5%] top-[16%] font-mono text-[11px] text-fuchsia/40 select-none">
-      await plasma.run()
-    </span>
-    <span class="absolute left-[6%] top-[44%] font-mono text-[11px] text-violet-bright/35 select-none">
-      // local-first · zero-cloud
-    </span>
-    <span class="absolute right-[8%] top-[50%] font-mono text-[11px] text-fuchsia/35 select-none">
-      {`{ status: "ok", time: 5.4 }`}
-    </span>
-    <span class="absolute left-[2%] top-[66%] font-mono text-[11px] text-violet/30 select-none">
-      workflow.emit("done")
-    </span>
-    <span class="absolute right-[3%] top-[70%] font-mono text-[11px] text-fuchsia/30 select-none">
-      node.connect(next).run()
-    </span>
 
     <!-- Bottom fade to pure bg -->
-    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg"></div>
+    <div class="inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg absolute"></div>
   </div>
 
   <div class="container-page relative">
@@ -51,16 +33,13 @@
         </a>
 
         <!-- Headline -->
-        <h1
-          class="font-sans font-extrabold tracking-tight text-fg"
-          style="font-size: clamp(2.75rem, 6vw, 5.25rem); line-height: 0.95; letter-spacing: -0.045em;"
-        >
+        <h1 class="h1 text-fg">
           Local-first automation<br />
           for <span class="text-gradient">power users</span>
         </h1>
 
         <!-- Subheading -->
-        <p class="max-w-xl text-base text-fg-muted sm:text-lg">
+        <p class="text-body-xl max-w-xl text-fg-muted">
           Plasma is an open-source desktop app that lets you build and run
           automations directly on your machine. No fluff — just fast, visual
           workflows powered by you.
@@ -93,14 +72,14 @@
       <!-- Outer glow halo -->
       <div class="absolute -inset-x-32 -inset-y-16 -z-10 [background:radial-gradient(ellipse_at_center,rgb(168_85_247/0.25),transparent_65%)]"></div>
 
-      <div class="app-window overflow-hidden rounded-card">
+      <div class="app-window  mx-auto max-w-5xl  overflow-hidden rounded-card">
         <!-- Window chrome -->
         <div class="flex items-center gap-2 border-b border-line/80 bg-gradient-to-b from-white/[0.03] to-transparent px-4 py-3">
           <span class="h-3 w-3 rounded-pill bg-pink/70 shadow-[0_0_8px_-1px_rgb(236_72_153/0.6)]"></span>
           <span class="h-3 w-3 rounded-pill bg-violet/70 shadow-[0_0_8px_-1px_rgb(168_85_247/0.6)]"></span>
           <span class="h-3 w-3 rounded-pill bg-fuchsia/70 shadow-[0_0_8px_-1px_rgb(232_121_249/0.6)]"></span>
           <div class="ml-3 flex items-center gap-2 font-mono text-[11px] text-fg-subtle">
-            <span class="grid h-4 w-4 place-items-center rounded-sm bg-gradient-to-br from-pink to-violet text-[9px] font-bold text-fg">P</span>
+            <span class="grid grid-cols-1 md:grid-cols-3 h-4 w-4 place-items-center rounded-sm bg-gradient-to-br from-pink to-violet text-[9px] font-bold text-fg">P</span>
             plasma · sales-team / new-search-automation.flow
           </div>
           <div class="ml-auto flex items-center gap-3 font-mono text-[10px] text-fg-subtle">
@@ -114,8 +93,8 @@
 
         <!-- Window body -->
         <div class="grid grid-cols-12 gap-3 p-4">
-          <!-- Sidebar -->
-          <aside class="col-span-2 flex flex-col gap-1">
+          <!-- Sidebar — horizontal scroll on mobile, vertical column on lg+ -->
+          <aside class="col-span-12 flex flex-row gap-1 overflow-x-auto lg:col-span-2 lg:flex-col lg:overflow-visible">
             {
               [
                 { label: "Workflows", active: true },
@@ -140,7 +119,7 @@
           </aside>
 
           <!-- Workflow canvas -->
-          <div class="relative col-span-6 h-[300px] rounded-md border border-line bg-gradient-to-br from-bg via-bg to-violet/5 p-5">
+          <div class="relative col-span-12 rounded-md border border-line bg-gradient-to-br from-bg via-bg to-violet/5 p-5 lg:col-span-6 lg:h-[300px]">
             <!-- SVG connecting lines between nodes -->
             <svg
               class="pointer-events-none absolute inset-0 h-full w-full"
@@ -160,7 +139,7 @@
               <path d="M 50 50 L 80 80" stroke="url(#line-grad)" stroke-width="0.4" fill="none" />
             </svg>
 
-            <div class="relative grid h-full grid-cols-3 gap-4">
+            <div class="relative grid h-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
               {
                 [
                   { title: "Trigger", sub: "On schedule", color: "fuchsia" },
@@ -193,7 +172,7 @@
           </div>
 
           <!-- Right pane: log output -->
-          <div class="col-span-4 rounded-md border border-line bg-bg p-3 font-mono text-[10px] leading-relaxed text-fg-muted">
+          <div class="col-span-12 rounded-md border border-line bg-bg p-3 font-mono text-[10px] leading-relaxed text-fg-muted lg:col-span-4">
             <div class="mb-2 flex items-center justify-between border-b border-line/60 pb-2 text-fg-subtle">
               <span>// Run output</span>
               <span class="text-emerald-400">● running</span>

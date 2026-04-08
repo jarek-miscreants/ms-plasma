@@ -35,12 +35,12 @@
   --font-mono:
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Display sizes — matches Plasma's tight bold hero */
-  --text-display: 5.5rem;
+  /* Display sizes — matches Plasma's tight bold hero (max values) */
+  --text-display: 5.25rem;       /* 84px */
   --text-display--line-height: 0.95;
   --text-display--letter-spacing: -0.045em;
 
-  --text-display-sm: 3rem;
+  --text-display-sm: 3.5rem;     /* 56px */
   --text-display-sm--line-height: 1.05;
   --text-display-sm--letter-spacing: -0.03em;
 
@@ -52,12 +52,23 @@
   --shadow-glow:
     0 0 80px -10px rgb(168 85 247 / 0.4),
     0 0 200px -40px rgb(232 121 249 / 0.3);
+  /* ---------- Easings ---------- */
+  --ease-default: cubic-bezier(0.625, 0.05, 0, 1);
+  --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  --container-7xl: 90rem;
 }
 
 /* ==========================================================================
    BASE
    ========================================================================== */
 @layer base {
+  :root {
+    /* Container-query fluid type anchors (in rem, unitless).
+       Type interpolates linearly from MIN at 20rem to MAX at 90rem. */
+    --container-min: 20;
+    --container-max: 90;
+  }
+
   html {
     color-scheme: dark;
   }
@@ -72,6 +83,114 @@
 @layer components {
   .container-page {
     @apply mx-auto w-full max-w-7xl px-gutter;
+    /* Mark as a query container so children can use cqi units for fluid type. */
+    container-type: inline-size;
+  }
+
+  /* ==========================================================================
+     FLUID TYPOGRAPHY
+     Linear interpolation between two anchor points using container query units.
+     Formula: clamp(MIN, intercept*1rem + slope*100cqi, MAX)
+     ========================================================================== */
+
+  /* ----- H1: 2.75rem → 5.25rem (44 → 84px) ----- */
+  .h1 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-size: clamp(
+      2.75rem,
+      ((2.75 - ((5.25 - 2.75) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((5.25 - 2.75) / (var(--container-max) - var(--container-min))) * 100cqi),
+      5.25rem
+    );
+  }
+
+  /* ----- H2: 2rem → 3.5rem (32 → 56px) ----- */
+  .h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-size: clamp(
+      2rem,
+      ((2 - ((3.5 - 2) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((3.5 - 2) / (var(--container-max) - var(--container-min))) * 100cqi),
+      3.5rem
+    );
+  }
+
+  /* ----- H3: 1.5rem → 2rem (24 → 32px) ----- */
+  .h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-size: clamp(
+      1.5rem,
+      ((1.5 - ((2 - 1.5) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((2 - 1.5) / (var(--container-max) - var(--container-min))) * 100cqi),
+      2rem
+    );
+  }
+
+  /* ----- Big-stat number: 2.5rem → 4rem (40 → 64px) ----- */
+  .text-stat {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-size: clamp(
+      2.5rem,
+      ((2.5 - ((4 - 2.5) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((4 - 2.5) / (var(--container-max) - var(--container-min))) * 100cqi),
+      4rem
+    );
+  }
+
+  /* ----- Body XL: 1rem → 1.25rem (16 → 20px) — hero subhead, big body ----- */
+  .text-body-xl {
+    font-size: clamp(
+      1rem,
+      ((1 - ((1.25 - 1) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((1.25 - 1) / (var(--container-max) - var(--container-min))) * 100cqi),
+      1.25rem
+    );
+    line-height: 1.5;
+  }
+
+  /* ----- Body LG: 0.9375rem → 1.125rem (15 → 18px) — standard body ----- */
+  .text-body-lg {
+    font-size: clamp(
+      0.9375rem,
+      ((0.9375 - ((1.125 - 0.9375) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((1.125 - 0.9375) / (var(--container-max) - var(--container-min))) * 100cqi),
+      1.125rem
+    );
+    line-height: 1.5;
+  }
+
+  /* ----- Body MD: 0.875rem → 1rem (14 → 16px) — smaller body ----- */
+  .text-body-md {
+    font-size: clamp(
+      0.875rem,
+      ((0.875 - ((1 - 0.875) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((1 - 0.875) / (var(--container-max) - var(--container-min))) * 100cqi),
+      1rem
+    );
+    line-height: 1.5;
+  }
+
+  /* ----- Body SM: 0.8125rem → 0.9375rem (13 → 15px) — captions ----- */
+  .text-body-sm {
+    font-size: clamp(
+      0.8125rem,
+      ((0.8125 - ((0.9375 - 0.8125) / (var(--container-max) - var(--container-min)) * var(--container-min))) * 1rem
+        + ((0.9375 - 0.8125) / (var(--container-max) - var(--container-min))) * 100cqi),
+      0.9375rem
+    );
+    line-height: 1.5;
   }
 
   /* ----- Gradient text used for the "power users" accent ----- */
